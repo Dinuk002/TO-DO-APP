@@ -21,12 +21,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+//create a new task
+  void createNewTask() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.deepPurple[200],
       appBar: AppBar(
         title: Center(child: Text("TO DO LIST")),
+        backgroundColor: Colors.deepPurple,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewTask,
+        child: Icon(Icons.add),
         backgroundColor: Colors.deepPurple,
       ),
       body: ListView.builder(
