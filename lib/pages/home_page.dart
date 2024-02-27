@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/components/dialog_box.dart';
 import 'package:flutter_application_1/components/todo_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +10,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  //text controller
+  final _controller = TextEditingController();
+
 //List of todo tasks
   List toDoList = [
     ["Make Tutorial", false],
@@ -21,8 +25,35 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  // save a new task
+  void saveNewTask() {
+    setState(() {
+      toDoList.add([_controller.text, false]);
+      _controller.clear();
+    });
+    Navigator.of(context).pop();
+  }
+
 //create a new task
-  void createNewTask() {}
+  void createNewTask() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return DialogBox(
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
+      },
+    );
+  }
+
+  //delete task
+  void deleteTask(int index) {
+    setState(() {
+      toDoList.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +75,7 @@ class _HomePageState extends State<HomePage> {
               taskName: toDoList[index][0],
               taskCompleted: toDoList[index][1],
               onChanged: (value) => checkBoxChanged(value, index),
+              deleteFunction: (context) => deleteTask,
             );
           }),
     );
